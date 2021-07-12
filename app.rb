@@ -34,6 +34,16 @@ def create_goal
   end
 end
 
+def delete_goal
+  goal = get_user_answer("Which goal would you like to delete?")
+  delete_success = @db.delete_goal(goal)
+  if delete_success
+    prompt("Goal successfully deleted!")
+  else
+    prompt("Goal not found.")
+  end
+end
+
 def list_goals
   goals = @db.get_goals
   prompt("Your goals:")
@@ -63,17 +73,17 @@ case command
 when 'create_goal'
   create_goal
 when 'edit_goal'
-  edit_goal(ARGV[0], ARGV[1])
+  edit_goal
 when 'delete_goal'
-  delete_goal(ARGV[0])
+  delete_goal
 when'add_habit'
-  create_habit(ARGV[0])
+  create_habit
 when 'edit_habit'
-  edit_habit(ARGV[0])
+  edit_habit
 when 'delete_habit'
-  delete_habit(ARGV[0])
+  delete_habit
 when 'list_goals'
   list_goals
 when 'list_habits'
-  list_habits_for(goal)
+  list_habits_for
 end
