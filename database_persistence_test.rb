@@ -19,6 +19,12 @@ class DatabasePersistenceTest < Minitest::Test
   def test_delete_goal
     assert_equal(false, @db.delete_goal("lklaknsldfn"))
     
+    goal_text = "Perform task"
+    @db.add_goal(goal_text)
+    assert(@db.delete_goal(goal_text))
+    
+    goals = @db.get_goals
+    refute_includes(goals, goal_text)
   end
 
   def teardown
