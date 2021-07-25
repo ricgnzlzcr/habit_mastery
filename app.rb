@@ -22,7 +22,7 @@ STEP 3: Create the interface that allows user to communicate with command line
 
 =end
 
-
+# Terminal Commands
 
 def create_goal
   goal = get_user_answer("What's your goal?")
@@ -49,6 +49,19 @@ def list_goals
   prompt("Your goals:")
   goals.each { |goal| prompt("- " + goal) }
 end
+
+def edit_goal
+  target_goal = get_user_answer("Which goal would you like to edit?")
+  new_goal = get_user_answer("What would you like to change the goal to?")
+  edit_success = @db.edit_goal(target_goal, new_goal)
+  if edit_success
+    prompt("Goal successfully edited!")
+  else
+    prompt("Goal not found.")
+  end
+end
+
+# Helper Methods
 
 def get_user_answer(question)
   answer = ''
