@@ -1,5 +1,10 @@
 <section class='goals_list'>
   <ul>
-    <li>Do thing</li>
+    <% @goals_list.each do |goal| %>
+      <li>
+        <%= goal %>
+        <a href='/link_to_add'><button type='button'>Delete</button></a>
+      </li>
+    <% end %>
   </ul>
 </section>

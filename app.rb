@@ -14,7 +14,10 @@ configure(:development) do
 end
 
 
-@db = DatabasePersistence.new
+before do
+  @db = DatabasePersistence.new
+end
+
 
 =begin
 This is an application that will initially be command line.
@@ -32,6 +35,7 @@ STEP 3: Create the interface that allows user to communicate with command line
 # Web App Routes
 
 get '/' do
+  @goals_list = @db.get_goals
   erb :goals
 end
 
