@@ -1,11 +1,18 @@
-=begin
 require "sinatra"
-require "sinatra/reloader"
 require "sinatra/content_for"
 require "tilt/erubis"
-=end
 
 require_relative "database_persistence"
+
+configure do
+  set :erb, escape_html: true
+end
+
+configure(:development) do
+  require "sinatra/reloader"
+  also_reload "database_persistence"
+end
+
 
 @db = DatabasePersistence.new
 
@@ -21,6 +28,13 @@ STEP 2: Create methods that INSERT, UPDATE, DELETE habits
 STEP 3: Create the interface that allows user to communicate with command line
 
 =end
+
+# Web App Routes
+
+get '/' do
+  erb :goals
+end
+
 
 # Terminal Commands
 
@@ -44,12 +58,6 @@ def delete_goal
   end
 end
 
-def list_goals
-  goals = @db.get_goals
-  prompt("Your goals:")
-  goals.each { |goal| prompt("- " + goal) }
-end
-
 def edit_goal
   target_goal = get_user_answer("Which goal would you like to edit?")
   new_goal = get_user_answer("What would you like to change the goal to?")
@@ -59,6 +67,12 @@ def edit_goal
   else
     prompt("Goal not found.")
   end
+end
+
+def list_goals
+  goals = @db.get_goals
+  prompt("Your goals:")
+  goals.each { |goal| prompt("- " + goal) }
 end
 
 # Helper Methods
